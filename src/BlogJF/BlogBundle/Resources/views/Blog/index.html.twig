@@ -1,0 +1,19 @@
+{# src/BlogJF/BlogBundle/Resources/views/Blog/index.html.twig #}
+{% extends 'BlogJFBlogBundle::layout.html.twig' %}
+
+{% block body %}
+    {% for billet in billets %}
+        <article>
+            <div class="date">{{ billet.date|localizeddate('none', 'none', null, null,'EEEE, d MMMM Y') }}</div>
+            <header>
+                <h2><a href="{{ path('blogjf_show', { 'id': billet.id }) }}">{{ billet.titre }}</a></h2>
+            </header>
+
+            <div class="snippet">
+                <p>{{ billet.roman(500) }}</p>
+                <p class="continue"><a href="{{ path('blogjf_show', { 'id': billet.id }) }}">Lire la suite ...</a></p>
+            </div>
+        </article>
+
+    {% endfor %}
+{% endblock %}

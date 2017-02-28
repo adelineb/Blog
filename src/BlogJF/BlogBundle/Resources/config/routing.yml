@@ -1,0 +1,27 @@
+blogjf_admin:
+    path:    /admin
+    defaults: { _controller: BlogJFBlogBundle:Blog:admin}
+
+blogjf_adminadd:
+    path:    /admin/add
+    defaults: { _controller: BlogJFBlogBundle:Blog:adminAdd}
+
+blogjf_admindel:
+    path:    /admin/del/{id}
+    defaults: { _controller: BlogJFBlogBundle:Blog:adminDel}
+
+blogjf_adminshow:
+    path:    /admin/{id}
+    defaults: { _controller: BlogJFBlogBundle:Blog:adminshow}
+
+blogjf_accueil:
+    path:     /
+    defaults: { _controller: BlogJFBlogBundle:Blog:index}
+
+blogjf_apropos:
+    path:    /apropos
+    defaults: { _controller: BlogJFBlogBundle:Blog:apropos}
+
+blogjf_show:
+    path:    /{id}
+    defaults: { _controller: BlogJFBlogBundle:Blog:show}
