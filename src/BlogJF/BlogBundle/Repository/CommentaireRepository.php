@@ -15,7 +15,7 @@ class CommentaireRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this
             ->createQueryBuilder('c')
             ->where('c.billet = :billet_id')
-            ->addorderBy('c.date')
+            ->addorderBy('c.date, c.billet, c.parentId')
             ->setParameter('billet_id', $billetId)
         ;
 

@@ -10,7 +10,7 @@
             </header>
 
             <div class="snippet">
-                <p>{{ billet.roman(500) }}</p>
+                <p>{{ billet.roman(500) |striptags|raw }}</p>
                 <p class="continue"><a href="{{ path('blogjf_show', { 'id': billet.id }) }}">Lire la suite ...</a></p>
             </div>
         </article>

@@ -19,20 +19,10 @@
     {{ form_errors(form) }}
 
     {#<fieldset>#}
-        <label>Titre de l'épisode</label>{{ form_widget(form.titre) }}
-        <br/><br/><br/>
+    <label>Titre de l'épisode</label>{{ form_widget(form.titre) }}
+    <br/><br/><br/>
 
-        {{ form_widget(form.roman, { 'attr': {'class': 'tinymce' }} ) }}
-
-        <head>
-            <script src="//cloud.tinymce.com/stable/tinymce.min.js?apiKey=e12o1hm518doi0e8ggudjjxsvqs4aq2n92actaftp4bkmynv"></script>
-            <script>tinymce.init({ selector:'textarea' });</script>
-        </head>
-        <body>
-        <textarea placeholder="Votre commentaire"></textarea>
-        </body>
-
-    {{ form_widget(form._token) }}
+    {{ form_widget(form.roman) }}
 
     <div>
         <div style="text-align:right">
@@ -43,3 +33,5 @@
     {{ form_end(form) }}
 
 {% endblock %}
+
+

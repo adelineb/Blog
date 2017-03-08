@@ -4,26 +4,6 @@
 {% block title %}{{ billet.titre }} {% endblock %}
 
 {% block body %}
-    <article class="blog">
-        <header>
-            <h2>{{ billet.titre }}</h2>
-        </header>
-        <div>
-            <p>{{ billet.roman }}</p>
-            <head>
-                <script src="//cloud.tinymce.com/stable/tinymce.min.js?apiKey=e12o1hm518doi0e8ggudjjxsvqs4aq2n92actaftp4bkmynv"></script>
-                <script>tinymce.init({ selector:'textarea' });</script>
-            </head>
-            <body>
-            <textarea placeholder="Votre commentaire"></textarea>
-            </body>
-        </div>
-    </article>
-
-    <a href="{{ path('blogjf_admin') }}"><input type="button" class="btn btn-danger" value="Annuler" /></a>
-    <a href="{{ path('blogjf_admindel', {'id': billet.id}) }}"><input type="button" class="btn btn-danger" value="Supprimer l'épisode" /></a>
-    <input type="submit" class="btn btn-default" value="Valider" />
-
     {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
     {# Les erreurs générales du formulaire. #}
@@ -33,23 +13,14 @@
     <label>Titre de l'épisode</label>{{ form_widget(form.titre) }}
     <br/><br/><br/>
 
-    {{ form_widget(form.roman, { 'attr': {'class': 'tinymce' }} ) }}
-
-    <head>
-        <script src="//cloud.tinymce.com/stable/tinymce.min.js?apiKey=e12o1hm518doi0e8ggudjjxsvqs4aq2n92actaftp4bkmynv"></script>
-        <script>tinymce.init({ selector:'textarea' });</script>
-    </head>
-    <body>
-    <textarea placeholder="Votre commentaire"></textarea>
-    </body>
+    {{ form_widget(form.roman) }}
 
     {{ form_widget(form._token) }}
 
-    <div>
-        <div style="text-align:right">
-            <a href="{{ path('blogjf_admin') }}"><input type="button" class="btn btn-danger" value="Annuler" /></a>
-            <input type="submit" class="btn btn-default" name="suivant" value="Valider" />
-        </div>
-    </div>
+    <a href="{{ path('blogjf_admin') }}"><input type="button" class="btn btn-danger" value="Annuler" /></a>
+    <a href="{{ path('blogjf_admindel', {'id': billet.id}) }}"><input type="button" class="btn btn-danger" value="Supprimer l'épisode" /></a>
+    <input type="submit" class="btn btn-default" value="Valider" />
+
     {{ form_end(form) }}
+
 {% endblock %}

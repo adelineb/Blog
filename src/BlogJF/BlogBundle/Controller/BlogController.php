@@ -3,9 +3,12 @@
 namespace BlogJF\BlogBundle\Controller;
 
 use BlogJF\BlogBundle\Entity\Billet;
+use BlogJF\BlogBundle\Entity\Commentaire;
 use BlogJF\BlogBundle\Form\BilletEditType;
 use BlogJF\BlogBundle\Form\BilletType;
+use BlogJF\BlogBundle\Form\CommentaireType;
 use BlogJF\BlogBundle\Model\BilletModel;
+use BlogJF\BlogBundle\Model\CommentaireModel;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -25,7 +28,7 @@ class BlogController extends Controller
         return $this->render('BlogJFBlogBundle:Blog:apropos.html.twig');
     }
 
-    public Function showAction($id)
+    public Function showAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $billet = $em->getRepository('BlogJFBlogBundle:Billet')->find($id);
@@ -36,22 +39,31 @@ class BlogController extends Controller
         $commentaires = $em->getRepository('BlogJFBlogBundle:Commentaire')
                            ->getCommentaireById($billet->getId());
 
-        /*$comments_id = [];
-        foreach ($commentaires as $commentaire) {
-            $comments_id[$commentaire->getCommentaire()] = $commentaire;
-        }
+        $commentModel = new CommentaireModel();
+        $form = $this->get('form.factory')->create(CommentaireType::class, $commentModel);
+        if ($request->isMethod('POST')) {
 
-        foreach ($commentaires as $k => $commentaire) {
-            if ($commentaire->getId() <> 0) {
-                $comments_id[$commentaire->getId()]->children[] = $commentaire;
-                unset($commentaires[$k]);
+            $em = $this->getDoctrine()->getManager();
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $commentaire = new Commentaire();
+                $commentaire->setBillet($billet);
+                $commentaire->setAuteur($commentModel->getAuteur());
+                $commentaire->setCommentaire($commentModel->getCommentaire());
+                $em->persist($commentaire);
+                $em->flush();
+                $this->addFlash('success', 'Merci pour votre commentaire :)');
+                /*return $this->redirectToRoute('blogjf_show', array(
+                    'billet' => $billet,
+                    'commentaires' => $commentaires,
+                    'form' => $form->createView()
+                ));*/
             }
         }
-        dump($comments_id);*/
-
         return $this->render('BlogJFBlogBundle:Blog:show.html.twig', array(
             'billet' => $billet,
-            'commentaires' => $commentaires
+            'commentaires' => $commentaires,
+            'form' => $form->createView()
         ));
     }
 
@@ -63,18 +75,23 @@ class BlogController extends Controller
             'billets' => $listeBillets
         ));
     }
+
     public function adminAddAction(Request $request)
     {
         $billetModel = new BilletModel();
         $form = $this->get('form.factory')->create(BilletType::class, $billetModel);
+       if ($request->isMethod('POST')) {
 
-        if ($request->isMethod('POST')) {
             $em = $this->getDoctrine()->getManager();
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $billet = new Billet();
                 $billet->setTitre($billetModel->getTitre());
                 $billet->setRoman($billetModel->getRoman());
+                if ($billet->getRoman() === null)
+                {
+
+                }
                 $em->persist($billet);
                 $em->flush();
 
@@ -88,16 +105,16 @@ class BlogController extends Controller
 
     public Function adminshowAction($id, Request $request) {
         $em = $this->getDoctrine()->getManager();
-        $billetModel = $em->getRepository('BlogJFBlogBundle:Billet')->find($id);
-        if (!$billetModel) {
-            throw $this->createNotFoundException('Impossible d ouvrir cet épisode');
-        }
-        dump($billetModel);
+        $billet = $em->getRepository('BlogJFBlogBundle:Billet')->find($id);
+        $billetModel = new BilletModel();
+        $billetModel->setId($billet->getId());
+        $billetModel->setTitre($billet->GetTitre());
+        $billetModel->setRoman($billet->getRoman());
         $form = $this->get('form.factory')->create(BilletType::class, $billetModel);
-        dump($billetModel);
 
         if ($request->isMethod('POST')) {
-
+            dump($billetModel->getTitre());
+            dump($billetModel->getRoman());
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $billet = new Billet();
@@ -109,13 +126,13 @@ class BlogController extends Controller
                 return $this->redirectToRoute('blogjf_admin', array());
             }
         }
-        $commentaires = $em->getRepository('BlogJFBlogBundle:Commentaire')
-            ->getCommentaireById($billetModel->getId());
+        //$commentaires = $em->getRepository('BlogJFBlogBundle:Commentaire')
+        //    ->getCommentaireById($billetModel->getId());
 
         return $this->render('BlogJFBlogBundle:Admin:adminshow.html.twig', array(
-            'billet' => $billetModel,
-            'form' => $form->createView(),
-            'commentaires' => $commentaires
+            'billet' => $billet,
+            'form' => $form->createView()
+            //'commentaires' => $commentaires
         ));
     }
 

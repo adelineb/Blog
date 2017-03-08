@@ -3,6 +3,7 @@
 namespace BlogJF\BlogBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,13 +14,9 @@ class BilletType extends AbstractType
     {
         $builder
             ->add('titre',          TextType::class)
-            ->add('roman',          TextType::class)
-            /*->add('roman',"textarea", array(
-                'attr' => array(
-                    'class' => 'tinymce',
-                    'data-theme' => 'medium' // simple, advanced, bbcode
-                )
-            ))*/;
+            ->add('roman',          TextareaType::class,array('required' => false))
+
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

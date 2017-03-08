@@ -58,6 +58,7 @@ class Commentaire
 
     public function __construct() {
         $this->date = new \Datetime();
+        $this->parentId = 0;
     }
 
     /**
@@ -104,7 +105,6 @@ class Commentaire
     public function setAuteur($auteur)
     {
         $this->auteur = $auteur;
-
         return $this;
     }
 
@@ -127,7 +127,7 @@ class Commentaire
      */
     public function setCommentaire($commentaire)
     {
-        $this->auteur = $commentaire;
+        $this->commentaire = $commentaire;
 
         return $this;
     }

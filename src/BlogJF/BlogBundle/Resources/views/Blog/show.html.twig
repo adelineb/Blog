@@ -9,7 +9,7 @@
             <h2>{{ billet.titre }}</h2>
         </header>
         <div>
-            <p>{{ billet.roman }}</p>
+            <p>{{ billet.roman |raw }}</p>
         </div>
     </article>
 
@@ -17,49 +17,49 @@
         <section class="previous-comments">
             <h3>Commentaires</h3>
             {% set id_prec = 0 %}
+            {% set marge = 0 %}
             {% for commentaire in commentaires %}
                 {% if id_prec == commentaire.parentid and id_prec != 0 %}
-                    <div style="margin-left: 50px;">
-                        <article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
-                            <div id="comment">
-                                <header>
-                                    <p><span class="highlight">{{ commentaire.auteur }}</span>, <time datetime="{{ commentaire.date|date('c') }}">{{ commentaire.date|localizeddate('none', 'none', null, null,'EEEE d MMMM Y') }}</time></p>
-                                </header>
-                                <p>{{ commentaire.commentaire }}</p>
-                                <input type="submit" class="btn btn-default" id="btn_repondre" value="Répondre" />
-                            </div>
-                        </article>
-                    </div>
-                {% else %}
-                    <div>
-                        <article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
-                            <div id="comment">
-                                <header>
-                                    <p><span class="highlight">{{ commentaire.auteur }}</span>, <time datetime="{{ commentaire.date|date('c') }}">{{ commentaire.date|localizeddate('none', 'none', null, null,'EEEE d MMMM Y') }}</time></p>
-                                </header>
-                                <p>{{ commentaire.commentaire }}</p>
-                                <input type="submit" class="btn btn-default" id="btn_repondre" value="Répondre" />
-                            </div>
-                        </article>
-                    </div>
+                    {%  set marge = marge + 50 %}
+                {% elseif commentaire.parentid == 0 %}
+                     {% set marge = 0 %}
                 {% endif %}
+
+                <div style="margin-left: {{ marge }}px;">
+                    <article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
+                       <div id="comment">
+                           <header>
+                               <p><span class="highlight">{{ commentaire.auteur }}</span>, <time datetime="{{ commentaire.date|date('c') }}">{{ commentaire.date|localizeddate('none', 'none', null, null,'EEEE d MMMM Y') }}</time></p>
+                           </header>
+                           <p>{{ commentaire.commentaire |striptags|raw }}</p>
+                           <input type="submit" class="btn btn-default reply" data-id="<?= commentaire.id" id="btn_repondre" value="Répondre" />
+                       </div>
+                    </article>
+                </div>
                 {% set id_prec = commentaire.id %}
             {% endfor %}
-
             <br/><br/>
 
-            <h4>Poster un commentaire</h4>
-            <head>
-                <script src="//cloud.tinymce.com/stable/tinymce.min.js?apiKey=e12o1hm518doi0e8ggudjjxsvqs4aq2n92actaftp4bkmynv"></script>
-                <script>tinymce.init({ selector:'textarea' });</script>
-            </head>
-            <body>
-                <textarea placeholder="Votre commentaire"></textarea>
-            </body>
         </section>
     </section>
+    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
-    <a href="{{ path('blogjf_accueil') }}"><input type="button" class="btn btn-danger" value="Annuler" /></a>
-    <input type="submit" class="btn btn-default" value="Valider" />
+    {# Les erreurs générales du formulaire. #}
+    {{ form_errors(form) }}
+
+    <div class = "form-comment">
+        {#<fieldset>#}
+        <h4>Poster un commentaire</h4>
+        {{ form_widget(form.auteur) }}
+        {{ form_widget(form.commentaire) }}
+
+        <a href="{{ path('blogjf_accueil') }}"><input type="button" class="btn btn-danger" value="Annuler" /></a>
+        <input type="submit" class="btn btn-default" value="Valider" />
+        {{ form_end(form) }}
+    </div>
 
 {% endblock %}
+
+{#{% block javascripts %}
+    <script src="{{ asset('js/app.js') }}"></script>
+{% endblock %}#}
