@@ -33,7 +33,7 @@ class BlogController extends Controller
         $em = $this->getDoctrine()->getManager();
         $billet = $em->getRepository('BlogJFBlogBundle:Billet')->find($id);
         if (!$billet) {
-            throw $this->createNotFoundException('Impossible d ouvrir cet épisode');
+            throw $this->createNotFoundException("Impossible d'ouvrir cet épisode");
         }
 
         $commentaires = $em->getRepository('BlogJFBlogBundle:Commentaire')
@@ -41,7 +41,7 @@ class BlogController extends Controller
 
         $commentModel = new CommentaireModel();
         $form = $this->get('form.factory')->create(CommentaireType::class, $commentModel);
-        if ($request->isMethod('POST')) {
+        /*if ($request->isMethod('POST')) {
 
             $em = $this->getDoctrine()->getManager();
             $form->handleRequest($request);
@@ -50,21 +50,48 @@ class BlogController extends Controller
                 $commentaire->setBillet($billet);
                 $commentaire->setAuteur($commentModel->getAuteur());
                 $commentaire->setCommentaire($commentModel->getCommentaire());
+
+                $commentaire->setParentId(2);
                 $em->persist($commentaire);
                 $em->flush();
                 $this->addFlash('success', 'Merci pour votre commentaire :)');
-                /*return $this->redirectToRoute('blogjf_show', array(
-                    'billet' => $billet,
-                    'commentaires' => $commentaires,
-                    'form' => $form->createView()
-                ));*/
             }
-        }
+        }*/
         return $this->render('BlogJFBlogBundle:Blog:show.html.twig', array(
             'billet' => $billet,
             'commentaires' => $commentaires,
             'form' => $form->createView()
         ));
+    }
+
+    public Function addAction($id, Request $request)
+    {
+        dump($id);
+        //dump($parentid);
+        $commentModel = new CommentaireModel();
+        $form = $this->get('form.factory')->create(CommentaireType::class, $commentModel);
+        if ($request->isMethod('POST')) {
+
+            $em = $this->getDoctrine()->getManager();
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $commentaire = new Commentaire();
+                $commentaire->setBillet($id);
+                $commentaire->setAuteur($commentModel->getAuteur());
+                $commentaire->setCommentaire($commentModel->getCommentaire());
+
+                //$commentaire->setParentId($parentid);
+                $em->persist($commentaire);
+                $em->flush();
+                $this->addFlash('success', 'Merci pour votre commentaire :)');
+                //return $this->redirectToRoute('');
+                /*return $this->render('blogjf_show', array(
+                    'billet' => $billet,
+                    'commentaires' => $commentaires,
+                    'form' => $form->createView()
+                ));*/
+            }
+        };
     }
 
     public function adminAction()
