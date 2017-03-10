@@ -41,7 +41,7 @@ class BlogController extends Controller
 
         $commentModel = new CommentaireModel();
         $form = $this->get('form.factory')->create(CommentaireType::class, $commentModel);
-        /*if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST')) {
 
             $em = $this->getDoctrine()->getManager();
             $form->handleRequest($request);
@@ -56,7 +56,7 @@ class BlogController extends Controller
                 $em->flush();
                 $this->addFlash('success', 'Merci pour votre commentaire :)');
             }
-        }*/
+        }
         return $this->render('BlogJFBlogBundle:Blog:show.html.twig', array(
             'billet' => $billet,
             'commentaires' => $commentaires,
@@ -64,34 +64,28 @@ class BlogController extends Controller
         ));
     }
 
-    public Function addAction($id, Request $request)
+    public Function addAction($id, $parentid, Request $request)
     {
-        dump($id);
-        //dump($parentid);
+        $em = $this->getDoctrine()->getManager();
+        $billet = $em->getRepository('BlogJFBlogBundle:Billet')->find($id);
         $commentModel = new CommentaireModel();
         $form = $this->get('form.factory')->create(CommentaireType::class, $commentModel);
         if ($request->isMethod('POST')) {
-
             $em = $this->getDoctrine()->getManager();
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $commentaire = new Commentaire();
-                $commentaire->setBillet($id);
+                $commentaire->setBillet($billet);
                 $commentaire->setAuteur($commentModel->getAuteur());
                 $commentaire->setCommentaire($commentModel->getCommentaire());
-
-                //$commentaire->setParentId($parentid);
+                $commentaire->setParentId($parentid);
                 $em->persist($commentaire);
+                dump($commentaire);
                 $em->flush();
                 $this->addFlash('success', 'Merci pour votre commentaire :)');
-                //return $this->redirectToRoute('');
-                /*return $this->render('blogjf_show', array(
-                    'billet' => $billet,
-                    'commentaires' => $commentaires,
-                    'form' => $form->createView()
-                ));*/
             }
         };
+        return $this->redirectToRoute('blogjf_show',array('id' => $id));
     }
 
     public function adminAction()

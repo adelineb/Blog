@@ -23,8 +23,8 @@ blogjf_apropos:
     defaults: { _controller: BlogJFBlogBundle:Blog:apropos}
 
 blogjf_add:
-    path:    /{id}/comment
-    defaults: { _controller: BlogJFBlogBundle:Blog:add}
+    path:    /{id}/comment/{parentid}
+    defaults: { _controller: BlogJFBlogBundle:Blog:add, parentid:0}
 
 blogjf_show:
     path:    /{id}
