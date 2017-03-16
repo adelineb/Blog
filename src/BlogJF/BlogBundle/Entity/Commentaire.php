@@ -2,6 +2,7 @@
 
 namespace BlogJF\BlogBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,10 +43,16 @@ class Commentaire
      */
     private $commentaire;
 
+
     /**
-     * @var int
-     *
-     * @ORM\Column(name="parent_id", type="integer")
+     * Un commentaire a plusieurs commentaires
+     * @ORM\OneToMany(targetEntity="BlogJF\BlogBundle\Entity\Commentaire", mappedBy="parentId")
+     */
+    private $children;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="BlogJF\BlogBundle\Entity\Commentaire", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
      */
     private $parentId;
 
@@ -67,6 +74,7 @@ class Commentaire
         $this->date = new \Datetime();
         $this->parentId = 0;
         $this->signaler = false;
+        $this->children = new ArrayCollection();
     }
 
     public function setId($id)
@@ -181,6 +189,10 @@ class Commentaire
         return $this->parentId;
     }
 
+    public function getChildren()
+    {
+        return $this->children;
+    }
 
     public function setBillet(Billet $billet)
     {

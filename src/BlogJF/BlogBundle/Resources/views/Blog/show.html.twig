@@ -19,23 +19,33 @@
             {% set id_prec = 0 %}
             {% set marge = 0 %}
             {% set nbComm = 0 %}
-            {% set i = 1 %}
             {% for commentaire in commentaires %}
-                {{ commentaire.id }} / {{ commentaire.parentid }}
-                {#{% if(commentaire.parentid.children[i] != 0) %}
-                    / {{ commentaire.parentId }}
-                {% endif %}#}
-                {% set i = i + 1 %}
+                {{ commentaire.id }} <br>
+                {% if commentaire.parentId == null %}
+                    {{ form_widget(commentaire.id) }} / {{ form_widget(commentaire.parentId.id) }} / {{ form_widget(commentaire.commentaire) }}
+
+                    {% if commentaire.children|length > 0 %}
+                        enfants :
+
+                        {% for commentaire in commentaire.children %}
+                            {{ commentaire.id }} /
+                        {% endfor %}
+                           <br>
+                    {% endif %}
+                {% endif %}
                 <br>
             {% endfor %}
+
+
             {% for commentaire in commentaires %}
-                {% if id_prec == commentaire.parentid and id_prec != 0 %}
-                    {%  set marge = marge + 50 %}
-                    {% set nbComm = nbComm + 1 %}
-                {% elseif commentaire.parentid == 0 %}
-                     {% set marge = 0 %}
-                     {% set nbComm = 0 %}
-                {% endif %}
+                    {% if id_prec == commentaire.parentId.id and id_prec != 0 %}
+                        {%  set marge = marge + 50 %}
+                        {% set nbComm = nbComm + 1 %}
+                    {% elseif commentaire.parentId.id == 0 %}
+                         {% set marge = 0 %}
+                         {% set nbComm = 0 %}
+                    {% endif %}
+
 
                 <div style="margin-left: {{ marge }}px;">
                     <article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
@@ -44,7 +54,7 @@
                         {% endif %}
                         <div id="comment">
                             <header>
-                                <p><span class="highlight">{{ commentaire.auteur }}</span>, <time datetime="{{ commentaire.date|date('c') }}">{{ commentaire.date|localizeddate('none', 'none', null, null,'EEEE d MMMM Y') }}</time></p>
+                                <p><span class="highlight">{{ commentaire.id }} / {{ commentaire.auteur }}</span>, <time datetime="{{ commentaire.date|date('c') }}">{{ commentaire.date|localizeddate('none', 'none', null, null,'EEEE d MMMM Y') }}</time></p>
                             </header>
                             <p>{{ commentaire.commentaire |striptags|raw }}</p>
                             <div class="comment-button">
@@ -52,7 +62,6 @@
                                     <a href="{{ path('blogjf_signaler', {'idbillet' : billet.id, 'idcomment' : commentaire.id}) }}"><input type="button" class="btn btn-danger" value="Signaler" /></a>
                                 {% else %}
                                     <a href="{{ path('blogjf_adminshow', {'id' : billet.id} )}}"><input type="button" disabled="false" class="btn btn-danger" value="signaler" /></a>
-                                    {#<a href="{{ path('blogjf_signaler', {'idbillet' : billet.id, 'idcomment' : commentaire.id}) }}"><input type="button" class="btn btn-danger" value="Ne plus signaler" /></a>#}
                                 {% endif %}
                                 {% if nbComm < 3 %}
                                     <input type="submit" class="btn btn-default reply" data-id="{{ commentaire.id }}" id="btn_repondre" value="Répondre" />
@@ -66,14 +75,14 @@
                 </div>
                 {% set id_prec = commentaire.id %}
             {% endfor %}
+
             <br/><br/>
 
         </section>
     </section>
 
     <div class = "form-comment">
-        {{ form_start(form, {'action': path('blogjf_add', {'id' : billet.id, 'parentid' : 0}), 'method': 'POST', 'attr': {'class': 'form-horizontal', 'id': 'formcomment'}}) }}
-        {# Les erreurs générales du formulaire. #}
+        {{ form_start(form, {'action': path('blogjf_add', {'id' : billet.id, 'parentid' : null}), 'method': 'POST', 'attr': {'class': 'form-horizontal', 'id': 'formcomment'}}) }}
         {{ form_errors(form) }}
 
         <h4>Poster un commentaire</h4>

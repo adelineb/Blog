@@ -38,27 +38,17 @@ class BlogController extends Controller
         $commentaires = $em->getRepository('BlogJFBlogBundle:Commentaire')
                            ->getCommentaireById($billet->getId());
 
-        $comments_by_id = [];
+        dump($commentaires);
 
-        foreach ($commentaires as $comment) {
+        /*foreach ($commentaires as $comment) {
             $comments_by_id[$comment->getId()] = $comment;
-        }
+        }*/
 
-        foreach ($commentaires as $k => $comment) {
-            if ($comment->getParentId() != 0) {
-                $comments_by_id[$comment->getParentId()]->children[] = $comment;
+        /*foreach ($commentaires as $k => $comment) {
+            if ($comment->getParentId()->getId() != 0) {
                 unset($commentaires[$k]);
-            }
-        }
-
-        foreach ($commentaires as $comment) {
-            dump($comment);
-            if (isset($comment->children)) {
-                foreach ($comment->children  as $com) {
-                    dump($com->chidren);
                 }
-            };
-        }
+            };*/
 
        $commentModel = new CommentaireModel();
         $form = $this->get('form.factory')->create(CommentaireType::class, $commentModel);
@@ -74,6 +64,7 @@ class BlogController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $billet = $em->getRepository('BlogJFBlogBundle:Billet')->find($id);
+        $commParent = $em->getRepository('BlogJFBlogBundle:Commentaire')->find($parentid);
         $commentModel = new CommentaireModel();
         $form = $this->get('form.factory')->create(CommentaireType::class, $commentModel);
         if ($request->isMethod('POST')) {
@@ -85,7 +76,17 @@ class BlogController extends Controller
                 $commentaire->setAuteur($commentModel->getAuteur());
                 $commentaire->setCommentaire($commentModel->getCommentaire());
                 $commentaire->setParentId($parentid);
+                if ($parentid === null)
+                {
+                    $commentaire->setParentId(0);
+                }
+                else
+                {
+                    $commentaire->setParentId($commParent);
+                }
+                dump($commentaire->getParentId());
                 $em->persist($commentaire);
+                dump($commentaire);
                 $em->flush();
                 $this->addFlash('success', 'Merci pour votre commentaire :)');
             }
