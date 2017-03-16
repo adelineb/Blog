@@ -18,22 +18,49 @@
             <h3>Commentaires</h3>
             {% set id_prec = 0 %}
             {% set marge = 0 %}
+            {% set nbComm = 0 %}
+            {% set i = 1 %}
+            {% for commentaire in commentaires %}
+                {{ commentaire.id }} / {{ commentaire.parentid }}
+                {#{% if(commentaire.parentid.children[i] != 0) %}
+                    / {{ commentaire.parentId }}
+                {% endif %}#}
+                {% set i = i + 1 %}
+                <br>
+            {% endfor %}
             {% for commentaire in commentaires %}
                 {% if id_prec == commentaire.parentid and id_prec != 0 %}
                     {%  set marge = marge + 50 %}
+                    {% set nbComm = nbComm + 1 %}
                 {% elseif commentaire.parentid == 0 %}
                      {% set marge = 0 %}
+                     {% set nbComm = 0 %}
                 {% endif %}
 
                 <div style="margin-left: {{ marge }}px;">
                     <article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
+                        {% if (commentaire.signaler == true) %}
+                            <img src="{{ asset('images/signale.png') }}" class = "signale" alt="logo"/>
+                        {% endif %}
                         <div id="comment">
-                           <header>
-                               <p><span class="highlight">{{ commentaire.auteur }}</span>, <time datetime="{{ commentaire.date|date('c') }}">{{ commentaire.date|localizeddate('none', 'none', null, null,'EEEE d MMMM Y') }}</time></p>
-                           </header>
-                           <p>{{ commentaire.commentaire |striptags|raw }}</p>
+                            <header>
+                                <p><span class="highlight">{{ commentaire.auteur }}</span>, <time datetime="{{ commentaire.date|date('c') }}">{{ commentaire.date|localizeddate('none', 'none', null, null,'EEEE d MMMM Y') }}</time></p>
+                            </header>
+                            <p>{{ commentaire.commentaire |striptags|raw }}</p>
+                            <div class="comment-button">
+                                {% if commentaire.signaler == false %}
+                                    <a href="{{ path('blogjf_signaler', {'idbillet' : billet.id, 'idcomment' : commentaire.id}) }}"><input type="button" class="btn btn-danger" value="Signaler" /></a>
+                                {% else %}
+                                    <a href="{{ path('blogjf_adminshow', {'id' : billet.id} )}}"><input type="button" disabled="false" class="btn btn-danger" value="signaler" /></a>
+                                    {#<a href="{{ path('blogjf_signaler', {'idbillet' : billet.id, 'idcomment' : commentaire.id}) }}"><input type="button" class="btn btn-danger" value="Ne plus signaler" /></a>#}
+                                {% endif %}
+                                {% if nbComm < 3 %}
+                                    <input type="submit" class="btn btn-default reply" data-id="{{ commentaire.id }}" id="btn_repondre" value="Répondre" />
+                                {% else %}
+                                    <input type="submit" style="visibility:hidden" class="btn btn-default reply" data-id="{{ commentaire.id }}" id="btn_repondre" value="Répondre" />
 
-                            <input type="submit" class="btn btn-default reply" data-id="{{ commentaire.id }}" id="btn_repondre" value="Répondre" />
+                                {% endif %}
+                            </div>
                        </div>
                     </article>
                 </div>
@@ -44,20 +71,18 @@
         </section>
     </section>
 
-    {#<input type="hidden" name="parent_id" value="0">#}
     <div class = "form-comment">
-        <input name="parent_id" class = "parent_id" value="0">
-        {{ form_start(form, {'action': path('blogjf_add', {'id' : billet.id, 'parentid' : 0}), 'method': 'POST', 'attr': {'class': 'form-horizontal', 'id': 'comment'}}) }}
+        {{ form_start(form, {'action': path('blogjf_add', {'id' : billet.id, 'parentid' : 0}), 'method': 'POST', 'attr': {'class': 'form-horizontal', 'id': 'formcomment'}}) }}
         {# Les erreurs générales du formulaire. #}
         {{ form_errors(form) }}
 
         <h4>Poster un commentaire</h4>
         {{ form_widget(form.auteur) }}
-        {{ form_widget(form.commentaire) }}
+        {{ form_widget(form.commentaire, {'id': 'textareaid'}) }}
         {{ form_widget(form._token) }}
 
         <a href="{{ path('blogjf_accueil') }}"><input type="button" class="btn btn-danger" value="Annuler" /></a>
-        <input type="submit" class="btn btn-default valid" value="Valider" />
+        <input type="submit" class="btn btn-default" value="Valider" />
         {{ form_end(form) }}
     </div>
 
@@ -65,30 +90,25 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-
     <script>
         $(document).ready(function(){
             $('.reply').click(function(e){
                 e.preventDefault();
-                var $form = $('.form-comment');
+                var $divform = $('.form-comment');
                 var $this = $(this);
                 var parent_id = $this.attr('data-id');
                 var comment = $('#comment-' + parent_id);
                 $('.parent_id').val(parent_id);
-                $form.find('h4').text('Répondre à ce commentaire');
-                comment.after($form);
-            })
-        });
+                $divform.find('h4').text('Répondre à ce commentaire');
+                var $form = $('#formcomment');
+                commenturl = '/Blog/web/app_dev.php/' + {{ billet.id }} + '/comment/';
+                $form.attr('action', commenturl + parent_id);
+                comment.after($divform);
+                var textareaId = 'textareaid';
+                tinyMCE.get(textareaId).remove();
+                tinyMCE.execCommand("mceAddEditor", false, textareaId);
 
-        $(document).ready(function(){
-           $('.valid').click(function(e){
-            e.preventDefault();
-            var parent_id = $(this).attr('data-id');
-            url = document.forms["comment"].action + "/" + $('.parent_id').val();
-            document.location.href = url;
-           })
+            })
         });
     </script>
 {% endblock %}

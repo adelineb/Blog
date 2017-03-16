@@ -1,0 +1,31 @@
+{% extends 'BlogJFBlogBundle::layout.html.twig' %}
+
+{% block body %}
+
+<section class="commentaires" id="commentaires">
+    <section class="previous-comments">
+        <h3>Commentaires</h3>
+        {% set id_prec = 0 %}
+        {% set marge = 0 %}
+        {% set nbComm = 0 %}
+        {% for commentaire in commentaires %}
+        <div style="margin-left: {{ marge }}px;">
+            <article class="comment {{ cycle(['even', 'odd'], loop.index0) }}" id="comment-{{ commentaire.id }}">
+                <div id="comment">
+                    <header>
+                        <p><span class="titre_chapitre">Titre: {{ commentaire.billet.titre }}</span></p>
+                        <p><span class="highlight">{{ commentaire.auteur }}</span>, <time datetime="{{ commentaire.date|date('c') }}">{{ commentaire.date|localizeddate('none', 'none', null, null,'EEEE d MMMM Y') }}</time></p>
+                    </header>
+                    <p>{{ commentaire.commentaire |striptags|raw }}</p>
+
+                    <div class="comment-button">
+                        <a href="{{ path('blogjf_admindelcomment', {'id': commentaire.id})}}"><input type="button" class="btn btn-danger" value="Supprimer le commentaire" /></a>
+                        <a href="{{ path('blogj_adminokcomment', {'id': commentaire.id})}}"><input type="button" class="btn btn-default" value="OK" /></a>
+                    </div>
+                </div>
+            </article>
+        </div>
+        {% endfor %}
+    </section>
+</section>
+{% endblock %}

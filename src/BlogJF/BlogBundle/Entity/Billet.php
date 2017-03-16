@@ -50,7 +50,6 @@ class Billet
     private $commentaires;
 
 
-
     public function __construct() {
         $this->date = new \Datetime();
         $this->commentaires = new ArrayCollection();
@@ -150,6 +149,11 @@ class Billet
         $this->commentaires[] = $commentaire;
         $commentaire->setBillet($this);
         return $this;
+    }
+
+    public function removeCommentaire (Commentaire $commentaire)
+    {
+        $this->commentaires->removeElement($commentaire);
     }
 
     /**

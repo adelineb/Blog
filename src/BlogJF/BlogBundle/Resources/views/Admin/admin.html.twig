@@ -1,5 +1,5 @@
 {# src/BlogJF/BlogBundle/Resources/views/Blog/index.html.twig #}
-{% extends '@BlogJFBlog/base.html.twig' %}
+{% extends '@BlogJFBlog/base2.html.twig' %}
 
 {% block body %}
     {% for billet in billets %}
@@ -17,8 +17,10 @@
 
     {% endfor %}
 
-    <a href="{{ path('blogjf_adminadd') }}"><input type="button" class="btn btn-default" value="Ajouter un chapitre" /></a>
-
+    <div class = "admin-button">
+        <a href="{{ path('blogjf_admincomment') }}"><input type="button" class="btn btn-default" value="Commentaire(s) signalé(s)" /></a>
+        <a href="{{ path('blogjf_adminadd') }}"><input type="button" class="btn btn-default" value="Ajouter un chapitre" /></a>
+    </div>
 {% endblock %}
 
 

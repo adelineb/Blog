@@ -1,18 +1,30 @@
 blogjf_admin:
     path:    /admin
-    defaults: { _controller: BlogJFBlogBundle:Blog:admin}
+    defaults: { _controller: BlogJFBlogBundle:Admin:admin}
+
+blogjf_admindelcomment:
+    path:    /admin/del/{id}
+    defaults : { _controller: BlogJFBlogBundle:Admin:adminDelComment}
+
+blogj_adminokcomment:
+    path:    /admin/valid{id}
+    defaults: { _controller: BlogJFBlogBundle:Admin:adminOkComment}
+
+blogjf_admincomment:
+    path:    /admin/comment
+    defaults: { _controller: BlogJFBlogBundle:Admin:adminComment}
 
 blogjf_adminadd:
     path:    /admin/add
-    defaults: { _controller: BlogJFBlogBundle:Blog:adminAdd}
+    defaults: { _controller: BlogJFBlogBundle:Admin:adminAdd}
 
 blogjf_admindel:
     path:    /admin/del/{id}
-    defaults: { _controller: BlogJFBlogBundle:Blog:adminDel}
+    defaults: { _controller: BlogJFBlogBundle:Admin:adminDel}
 
 blogjf_adminshow:
     path:    /admin/{id}
-    defaults: { _controller: BlogJFBlogBundle:Blog:adminshow}
+    defaults: { _controller: BlogJFBlogBundle:Admin:adminshow}
 
 blogjf_accueil:
     path:     /
@@ -25,6 +37,12 @@ blogjf_apropos:
 blogjf_add:
     path:    /{id}/comment/{parentid}
     defaults: { _controller: BlogJFBlogBundle:Blog:add, parentid:0}
+    requirements:
+        -method: POST
+
+blogjf_signaler:
+    path:    /{idbillet}/signaler/{idcomment}
+    defaults: { _controller: BlogJFBlogBundle:Blog:signaler}
 
 blogjf_show:
     path:    /{id}

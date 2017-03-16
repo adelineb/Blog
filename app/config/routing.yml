@@ -1,6 +1,11 @@
+login:
+    path: /login
+    defaults:
+        { _controller: BlogJFBlogBundle:Security:login }
+
+logout:
+    path: /logout
+
 blog_jf_blog:
     resource: "@BlogJFBlogBundle/Resources/config/routing.yml"
     prefix:   /
-
-fos_js_routing:
-    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

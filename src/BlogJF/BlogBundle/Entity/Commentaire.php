@@ -50,6 +50,13 @@ class Commentaire
     private $parentId;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="signaler", type="boolean")
+     */
+    private $signaler;
+
+    /**
      * @ORM\ManyToOne(targetEntity="BlogJF\BlogBundle\Entity\Billet", inversedBy="commentaires")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -59,6 +66,14 @@ class Commentaire
     public function __construct() {
         $this->date = new \Datetime();
         $this->parentId = 0;
+        $this->signaler = false;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -175,5 +190,16 @@ class Commentaire
     public function getBillet()
     {
         return $this->billet;
+    }
+
+
+    public function setSignaler($signaler)
+    {
+        $this->signaler = $signaler;
+    }
+
+    public function getSignaler()
+    {
+        return $this->signaler;
     }
 }

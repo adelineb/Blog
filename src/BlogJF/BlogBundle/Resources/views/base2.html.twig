@@ -17,11 +17,12 @@
 
 <body>
 
-    <section id="wrapper">
+{#<section id="wrapper">#}
+    <div class="container">
         <header id="header">
-            <div class="top">
+            <div class="row">
                 {% block navigation %}
-                    <nav>
+                    <nav class="col-lg-12">
                         <ul class="navigation">
                             <li><a href="{{ path('blogjf_admin') }} ">Administration</a></li>
                             <li><a href="{{ path('blogjf_accueil') }} ">Accueil</a></li>
@@ -31,27 +32,34 @@
                 {% endblock %}
             </div>
 
-            <hgroup>
-                <h2>{% block blog_title %}<a href="#">Billet simple pour l'Alaska</a>{% endblock %}</h2>
-                <h3>{% block blog_tagline %}<a href="#">Roman de Jean FORTEROCHE</a>{% endblock %}</h3>
+            <hgroup class="row">
+                <div class="col-lg-12">
+                {#<h2>{% block blog_title %}<a href="#">Billet simple pour l'Alaska</a>{% endblock %}</h2>#}
+                <h2>{% block blog_title %}Billet simple pour l'Alaska{% endblock %}</h2>
+                <h3>{% block blog_tagline %}<a href="{{ path('blogjf_apropos') }}">Roman de Jean FORTEROCHE</a>{% endblock %}</h3>
+                </div>
             </hgroup>
         </header>
 
-        <section class="main-col">
+        <div class="row">
+        <section class="main-col col-lg-12">
             {% block body %}{% endblock %}
         </section>
+        </div>
         {#<aside class="sidebar">
             {% block sidebar %}{% endblock %}
         </aside>#}
 
-        <div id="footer">
+        <div id="footer" class="row text-center">
             {% block footer %}
                 Copyright © 2017 - Adeline BARRÉ - Tous droits réservés<br/>
                 <a href="/mentions-legales" title="Mentions légales">Mentions légales</a>
             {% endblock %}
         </div>
-    </section>
+    </div>
 
-    {% block javascripts %}{% endblock %}
+{#</section>#}
+
+{% block javascripts %}{% endblock %}
 </body>
 </html>

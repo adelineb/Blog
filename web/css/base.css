@@ -18,13 +18,24 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 body{
-    line-height:1
+    line-height:1;
+    /*background-color: azure;*/
 }
 
 hgroup {
     background-image: url("../images/alaska-road.jpg");
     background-repeat: no-repeat;
     /*opacity: 0.5;*/
+}
+
+hgroup h3 a {
+    color: #F48A00;
+}
+
+h3 a:hover {
+    text-decoration: none;
+    font-weight: bold;
+    color: #F48A00;
 }
 
 ol, ul{
@@ -72,7 +83,7 @@ body {
 #header h2 a { color: #000; }
 #header h3 { text-align: center; font-family: 'La Belle Aurore', cursive; font-size: 24px; margin-bottom: 20px; font-weight: normal; }
 
-.main-col { width: 700px; display: inline-block; float: left; border-right: 1px solid #ccc; padding: 20px; margin-bottom: 20px; }
+/*.main-col { width: 700px; display: inline-block; float: left; border-right: 1px solid #ccc; padding: 20px; margin-bottom: 20px; }*/
 /*.sidebar { width: 239px; padding: 10px; display: inline-block; }*/
 
 .main-col a { color: #F48A00; }
@@ -90,9 +101,40 @@ body {
 .commentaires h3 { background: #eee; padding: 10px; font-size: 20px; margin-bottom: 20px; clear: both; }
 .commentaires .previous-comments { margin-bottom: 20px; }
 
+@media (min-width: 768px) {
+    .container {
+        width: 750px;
+    }
+}
+@media (min-width: 992px) {
+    .container {
+        width: 970px;
+    }
+}
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
 
-#btn_repondre {
+.comment-button {
     float: right !important;
+}
+
+.btn-default:hover {
+    background-color: #345BBA;
+    border-color: #345BBA;
+    color: white;
+}
+
+.titre_chapitre {
+    font-size: 1.17em;
+    color: #006dcc;
+}
+
+.signale {
+    width: 30px;
+    float: right;
 }
 
 .clear {

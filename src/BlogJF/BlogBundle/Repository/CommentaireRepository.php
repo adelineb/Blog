@@ -15,7 +15,7 @@ class CommentaireRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this
             ->createQueryBuilder('c')
             ->where('c.billet = :billet_id')
-            ->addorderBy('c.parentId, c.id')
+            ->addorderBy('c.id')
             ->setParameter('billet_id', $billetId)
         ;
 
@@ -23,6 +23,22 @@ class CommentaireRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult()
             ;
+    }
+
+    function getCommentaireBySignaler()
+    {
+        /*$qb = $this
+            ->createQueryBuilder('c')
+            ->LeftJoin('a.billet', 'billet')
+            ->addSelect('billet')
+            ->where('c.signaler = true')
+        ;*/
+        $qb = $this->_em->createQuery('SELECT c FROM BlogJFBlogBundle:Commentaire c');
+        return $qb
+            ->getQuery()
+            ->getResult()
+            ;
+
     }
 }
 
