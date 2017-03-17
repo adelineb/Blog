@@ -16,70 +16,41 @@
     <section class="commentaires" id="commentaires">
         <section class="previous-comments">
             <h3>Commentaires</h3>
-            {% set id_prec = 0 %}
             {% set marge = 0 %}
             {% set nbComm = 0 %}
             {% for commentaire in commentaires %}
-                {{ commentaire.id }} <br>
                 {% if commentaire.parentId == null %}
-                    {{ form_widget(commentaire.id) }} / {{ form_widget(commentaire.parentId.id) }} / {{ form_widget(commentaire.commentaire) }}
-
+                    <article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
+                        {% include "BlogJFBlogBundle:Blog:commentaire.html.twig" %}
+                    </article>
                     {% if commentaire.children|length > 0 %}
-                        enfants :
-
                         {% for commentaire in commentaire.children %}
-                            {{ commentaire.id }} /
+                            {% set marge = 50 %}
+                            {% set nbComm = 1 %}
+                            <article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
+                                {% include "BlogJFBlogBundle:Blog:commentaire.html.twig" %}
+                            </article>
+                            {% for commentaire in commentaire.children %}
+                                    {% set marge = 100 %}
+                                    {% set nbComm = 2 %}
+                                    <article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
+                                    {% include "BlogJFBlogBundle:Blog:commentaire.html.twig" %}
+                                    </article>
+                                {% for commentaire in commentaire.children %}
+                                        {% set marge = 150 %}
+                                        {% set nbComm = 3 %}
+                                        <article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
+                                        {% include "BlogJFBlogBundle:Blog:commentaire.html.twig" %}
+                                        </article>
+                                {% endfor %}
+                            {% endfor %}
                         {% endfor %}
-                           <br>
                     {% endif %}
                 {% endif %}
-                <br>
             {% endfor %}
-
-
-            {% for commentaire in commentaires %}
-                    {% if id_prec == commentaire.parentId.id and id_prec != 0 %}
-                        {%  set marge = marge + 50 %}
-                        {% set nbComm = nbComm + 1 %}
-                    {% elseif commentaire.parentId.id == 0 %}
-                         {% set marge = 0 %}
-                         {% set nbComm = 0 %}
-                    {% endif %}
-
-
-                <div style="margin-left: {{ marge }}px;">
-                    <article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
-                        {% if (commentaire.signaler == true) %}
-                            <img src="{{ asset('images/signale.png') }}" class = "signale" alt="logo"/>
-                        {% endif %}
-                        <div id="comment">
-                            <header>
-                                <p><span class="highlight">{{ commentaire.id }} / {{ commentaire.auteur }}</span>, <time datetime="{{ commentaire.date|date('c') }}">{{ commentaire.date|localizeddate('none', 'none', null, null,'EEEE d MMMM Y') }}</time></p>
-                            </header>
-                            <p>{{ commentaire.commentaire |striptags|raw }}</p>
-                            <div class="comment-button">
-                                {% if commentaire.signaler == false %}
-                                    <a href="{{ path('blogjf_signaler', {'idbillet' : billet.id, 'idcomment' : commentaire.id}) }}"><input type="button" class="btn btn-danger" value="Signaler" /></a>
-                                {% else %}
-                                    <a href="{{ path('blogjf_adminshow', {'id' : billet.id} )}}"><input type="button" disabled="false" class="btn btn-danger" value="signaler" /></a>
-                                {% endif %}
-                                {% if nbComm < 3 %}
-                                    <input type="submit" class="btn btn-default reply" data-id="{{ commentaire.id }}" id="btn_repondre" value="Répondre" />
-                                {% else %}
-                                    <input type="submit" style="visibility:hidden" class="btn btn-default reply" data-id="{{ commentaire.id }}" id="btn_repondre" value="Répondre" />
-
-                                {% endif %}
-                            </div>
-                       </div>
-                    </article>
-                </div>
-                {% set id_prec = commentaire.id %}
-            {% endfor %}
-
-            <br/><br/>
-
         </section>
     </section>
+
 
     <div class = "form-comment">
         {{ form_start(form, {'action': path('blogjf_add', {'id' : billet.id, 'parentid' : null}), 'method': 'POST', 'attr': {'class': 'form-horizontal', 'id': 'formcomment'}}) }}
@@ -94,7 +65,6 @@
         <input type="submit" class="btn btn-default" value="Valider" />
         {{ form_end(form) }}
     </div>
-
 {% endblock %}
 
 {% block javascripts %}

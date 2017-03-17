@@ -132,6 +132,7 @@ class AdminController extends Controller
         $em->merge($commentaire);
         $em->flush();
 
-        return $this->redirectToRoute('blogjf_admin');
+        //return $this->redirectToRoute('blogjf_admin');
+        return $this->redirectToRoute('blogjf_admincomment');
     }
 }

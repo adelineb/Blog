@@ -38,18 +38,6 @@ class BlogController extends Controller
         $commentaires = $em->getRepository('BlogJFBlogBundle:Commentaire')
                            ->getCommentaireById($billet->getId());
 
-        dump($commentaires);
-
-        /*foreach ($commentaires as $comment) {
-            $comments_by_id[$comment->getId()] = $comment;
-        }*/
-
-        /*foreach ($commentaires as $k => $comment) {
-            if ($comment->getParentId()->getId() != 0) {
-                unset($commentaires[$k]);
-                }
-            };*/
-
        $commentModel = new CommentaireModel();
         $form = $this->get('form.factory')->create(CommentaireType::class, $commentModel);
 
@@ -84,9 +72,7 @@ class BlogController extends Controller
                 {
                     $commentaire->setParentId($commParent);
                 }
-                dump($commentaire->getParentId());
                 $em->persist($commentaire);
-                dump($commentaire);
                 $em->flush();
                 $this->addFlash('success', 'Merci pour votre commentaire :)');
             }

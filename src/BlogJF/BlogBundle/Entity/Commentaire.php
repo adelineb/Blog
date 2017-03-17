@@ -72,7 +72,7 @@ class Commentaire
 
     public function __construct() {
         $this->date = new \Datetime();
-        $this->parentId = 0;
+        $this->parentId = null;
         $this->signaler = false;
         $this->children = new ArrayCollection();
     }
