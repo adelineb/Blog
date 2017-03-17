@@ -3,6 +3,7 @@
 
 {% block body %}
     {% for billet in billets %}
+        {#<article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">#}
         <article>
             <div class="date">{{ billet.date|localizeddate('none', 'none', null, null,'EEEE, d MMMM Y') }}</div>
             <header>

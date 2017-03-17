@@ -38,10 +38,17 @@ class BlogController extends Controller
         $commentaires = $em->getRepository('BlogJFBlogBundle:Commentaire')
                            ->getCommentaireById($billet->getId());
 
-       $commentModel = new CommentaireModel();
+        $commentModel = new CommentaireModel();
         $form = $this->get('form.factory')->create(CommentaireType::class, $commentModel);
 
-       return $this->render('BlogJFBlogBundle:Blog:show.html.twig', array(
+        /*foreach($commentaires as $k => $commentaire) {
+            if($commentaire->getParentId() != null) {
+                unset($commentaires[$k]);
+            }
+        }*/
+        dump($commentaires);
+
+        return $this->render('BlogJFBlogBundle:Blog:show.html.twig', array(
             'billet' => $billet,
             'commentaires' => $commentaires,
             'form' => $form->createView()
@@ -63,15 +70,17 @@ class BlogController extends Controller
                 $commentaire->setBillet($billet);
                 $commentaire->setAuteur($commentModel->getAuteur());
                 $commentaire->setCommentaire($commentModel->getCommentaire());
-                $commentaire->setParentId($parentid);
+
+                $commentaire->addChildren($commentaire);
                 if ($parentid === null)
                 {
-                    $commentaire->setParentId(0);
+                    $commentaire->setParentId(null);
                 }
                 else
                 {
                     $commentaire->setParentId($commParent);
                 }
+
                 $em->persist($commentaire);
                 $em->flush();
                 $this->addFlash('success', 'Merci pour votre commentaire :)');

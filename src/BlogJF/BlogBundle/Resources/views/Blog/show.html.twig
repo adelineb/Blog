@@ -16,7 +16,13 @@
     <section class="commentaires" id="commentaires">
         <section class="previous-comments">
             <h3>Commentaires</h3>
-            {% set marge = 0 %}
+
+            {% include "BlogJFBlogBundle:Blog:commentaire.html.twig" %}
+
+
+
+
+            {#{% set marge = 0 %}
             {% set nbComm = 0 %}
             {% for commentaire in commentaires %}
                 {% if commentaire.parentId == null %}
@@ -47,7 +53,7 @@
                         {% endfor %}
                     {% endif %}
                 {% endif %}
-            {% endfor %}
+            {% endfor %}#}
         </section>
     </section>
 

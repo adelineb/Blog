@@ -189,6 +189,13 @@ class Commentaire
         return $this->parentId;
     }
 
+    public function addChildren(Commentaire $children)
+    {
+        $this->children[] = $children;
+        $children->setParentId($this);
+        return $this;
+    }
+
     public function getChildren()
     {
         return $this->children;

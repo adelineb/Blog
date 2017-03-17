@@ -93,6 +93,7 @@ body {
 .commentaires h3 { background: #eee; padding: 10px; font-size: 20px; margin-bottom: 20px; clear: both; }
 .commentaires .previous-comments { margin-bottom: 20px; }
 
+
 @media (min-width: 768px) {
     .container {
         width: 750px;
@@ -132,7 +133,6 @@ body {
 
 a:hover {
     text-decoration: none !important;;
-    font-weight: bold !important;;
 }
 
 
