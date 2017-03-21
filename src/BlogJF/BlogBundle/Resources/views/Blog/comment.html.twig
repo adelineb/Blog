@@ -2,9 +2,9 @@
     <div class="row">
         <div class="col-lg-12" style="margin-left: {{ marge }}px;">
             {% set index = index + 1 %}
-            {{ dump(index) }}
-            <article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
-           {# <article class="comment" id="comment-{{ commentaire.id }}">#}
+            <hr/>
+            {#<article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">#}
+            <article class="comment" id="comment-{{ commentaire.id }}">
                 {% if (commentaire.signaler == true) %}
                     <img src="{{ asset('images/signale.png') }}" class = "signale" alt="logo"/>
                 {% endif %}

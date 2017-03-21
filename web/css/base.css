@@ -89,7 +89,7 @@ span.highlight { color: #F48A00; }
 
 .commentaires { clear: both; }
 .commentaires .odd { background: #eee; }
-.commentaires .comment { padding: 15px; }
+.commentaires .comment { padding: 0px 15px; }
 .commentaires .comment p { margin-bottom: 0; }
 .commentaires h3 { background: #eee; padding: 10px; font-size: 20px; margin-bottom: 20px; clear: both; }
 .commentaires .previous-comments { margin-bottom: 20px; }
