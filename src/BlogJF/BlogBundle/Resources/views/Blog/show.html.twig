@@ -4,56 +4,24 @@
 {% block title %}{{ billet.titre }}{% endblock %}
 
 {% block body %}
+
     <article class="blog">
         <header>
             <h2>{{ billet.titre }}</h2>
         </header>
         <div>
-            <p>{{ billet.roman |raw }}</p>
+            <p>{{ billet.roman |striptags|raw }}</p>
         </div>
     </article>
 
     <section class="commentaires" id="commentaires">
         <section class="previous-comments">
             <h3>Commentaires</h3>
-
-            {% include "BlogJFBlogBundle:Blog:commentaire.html.twig" %}
-
-
-
-
-            {#{% set marge = 0 %}
+            {% set marge = 0 %}
             {% set nbComm = 0 %}
-            {% for commentaire in commentaires %}
-                {% if commentaire.parentId == null %}
-                    <article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
-                        {% include "BlogJFBlogBundle:Blog:commentaire.html.twig" %}
-                    </article>
-                    {% if commentaire.children|length > 0 %}
-                        {% for commentaire in commentaire.children %}
-                            {% set marge = 50 %}
-                            {% set nbComm = 1 %}
-                            <article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
-                                {% include "BlogJFBlogBundle:Blog:commentaire.html.twig" %}
-                            </article>
-                            {% for commentaire in commentaire.children %}
-                                    {% set marge = 100 %}
-                                    {% set nbComm = 2 %}
-                                    <article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
-                                    {% include "BlogJFBlogBundle:Blog:commentaire.html.twig" %}
-                                    </article>
-                                {% for commentaire in commentaire.children %}
-                                        {% set marge = 150 %}
-                                        {% set nbComm = 3 %}
-                                        <article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
-                                        {% include "BlogJFBlogBundle:Blog:commentaire.html.twig" %}
-                                        </article>
-                                {% endfor %}
-                            {% endfor %}
-                        {% endfor %}
-                    {% endif %}
-                {% endif %}
-            {% endfor %}#}
+            {% set i = 0 %}
+            {% set index = 0 %}
+            {% include "BlogJFBlogBundle:Blog:comment.html.twig" with {'marge' : 0}%}
         </section>
     </section>
 
@@ -61,7 +29,7 @@
     <div class = "form-comment">
         {{ form_start(form, {'action': path('blogjf_add', {'id' : billet.id, 'parentid' : null}), 'method': 'POST', 'attr': {'class': 'form-horizontal', 'id': 'formcomment'}}) }}
         {{ form_errors(form) }}
-
+        <br><br>
         <h4>Poster un commentaire</h4>
         {{ form_widget(form.auteur) }}
         {{ form_widget(form.commentaire, {'id': 'textareaid'}) }}

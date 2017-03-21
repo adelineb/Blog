@@ -1,0 +1,33 @@
+<div style="margin-left: {{ marge }}px;">
+    <article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
+        {% if (commentaire.signaler == true) %}
+            <img src="{{ asset('images/signale.png') }}" class = "signale" alt="logo"/>
+        {% endif %}
+        <div id="comment">
+            <header>
+                <p>{{ commentaire.id }} / <span class="highlight">{{ commentaire.auteur }}</span>, <time datetime="{{ commentaire.date|date('c') }}">{{ commentaire.date|localizeddate('none', 'none', null, null,'EEEE d MMMM Y') }}</time></p>
+            </header>
+            <p>{{ commentaire.commentaire |striptags|raw }}</p>
+            <div class="comment-button">
+                {% if commentaire.signaler == false %}
+                    <a href="{{ path('blogjf_signaler', {'idbillet' : billet.id, 'idcomment' : commentaire.id}) }}"><input type="button" class="btn btn-danger" value="Signaler" /></a>
+                {% else %}
+                    <a href="{{ path('blogjf_adminshow', {'id' : billet.id} )}}"><input type="button" disabled="false" class="btn btn-danger" value="signaler" /></a>
+                {% endif %}
+                {% if nbComm < 3 %}
+                    <input type="submit" class="btn btn-default reply" data-id="{{ commentaire.id }}" id="btn_repondre" value="Répondre" />
+                {% else %}
+                    <input type="submit" style="visibility:hidden" class="btn btn-default reply" data-id="{{ commentaire.id }}" id="btn_repondre" value="Répondre" />
+
+                {% endif %}
+            </div>
+        </div>
+
+    </article>
+</div>
+{% if commentaire.children|length > 0 %}
+    {% set marge = marge + 50 %}
+    {% set nbComm = nbComm + 1 %}
+    <br>
+    {% include "BlogJFBlogBundle:Blog:comment.html.twig" with {'commentaires': commentaire.children, 'marge' : marge}%}
+{% endif %}

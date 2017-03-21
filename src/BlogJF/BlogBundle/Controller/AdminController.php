@@ -49,6 +49,9 @@ class AdminController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $billet = $em->getRepository('BlogJFBlogBundle:Billet')->find($id);
+        if (!$billet) {
+            return $this->redirectToRoute('blogjf_admin');
+        }
         $billetModel = new BilletModel();
         $billetModel->setId($billet->getId());
         $billetModel->setTitre($billet->GetTitre());
@@ -108,15 +111,15 @@ class AdminController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $commentaire = $em->getRepository('BlogJFBlogBundle:Commentaire')->find($id);
-
         if (null === $commentaire) {
             throw new NotFoundHttpException("Le commentaire ".$id." n'existe pas.");
         }
 
         $em->remove($commentaire);
         $em->flush();
+
         $this->addFlash('info', "Le commentaire a bien été supprimée.");
-        return $this->redirectToRoute('blogjf_admin');
+        return $this->redirectToRoute('blogjf_admincomment');
     }
 
     public function adminOkCommentAction($id)

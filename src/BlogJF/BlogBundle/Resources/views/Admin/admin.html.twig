@@ -4,7 +4,7 @@
 {% block body %}
     {% for billet in billets %}
         <article>
-            {#<div class="date">{{ billet.date|localizeddate('none', 'none', null, null,'EEEE, d MMMM Y') }}</div>#}
+            <div class="date">{{ billet.date|localizeddate('none', 'none', null, null,'EEEE, d MMMM Y') }}</div>
             <header>
                 <h2><a href="{{ path('blogjf_adminshow', { 'id': billet.id }) }}">{{ billet.titre }}</a></h2>
             </header>

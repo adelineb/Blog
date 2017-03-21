@@ -27,12 +27,6 @@ class CommentaireRepository extends \Doctrine\ORM\EntityRepository
 
     function getCommentaireBySignaler()
     {
-        /*$qb = $this
-            ->createQueryBuilder('c')
-            ->LeftJoin('a.billet', 'billet')
-            ->addSelect('billet')
-            ->where('c.signaler = true')
-        ;*/
         $qb = $this->_em->createQuery('SELECT c FROM BlogJFBlogBundle:Commentaire c');
         return $qb
             ->getQuery()
@@ -41,10 +35,3 @@ class CommentaireRepository extends \Doctrine\ORM\EntityRepository
 
     }
 }
-
-/*SELECT id, billet_id, date, auteur, commentaire, parent_id FROM commentaire
-UNION
-(SELECT C.id, C.billet_id, C.date, C.auteur, C.commentaire, C.parent_id
-   FROM commentaire AS C
-   WHERE C.billet_id = 7
-   INNER JOIN commentaire ON commentaire.id = C.parent_id)*/

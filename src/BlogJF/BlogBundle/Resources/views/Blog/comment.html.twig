@@ -1,0 +1,44 @@
+{% for commentaire in commentaires %}
+    <div class="row">
+        <div class="col-lg-12" style="margin-left: {{ marge }}px;">
+            {% set index = index + 1 %}
+            {{ dump(index) }}
+            <article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
+           {# <article class="comment" id="comment-{{ commentaire.id }}">#}
+                {% if (commentaire.signaler == true) %}
+                    <img src="{{ asset('images/signale.png') }}" class = "signale" alt="logo"/>
+                {% endif %}
+                <div class ="row" id="comment">
+                    {#<div class>#}
+                    <header class="col-lg-8">
+                        <p><span class="highlight">{{ commentaire.auteur }}</span>, <time datetime="{{ commentaire.date|date('c') }}">{{ commentaire.date|localizeddate('none', 'none', null, null,'EEEE d MMMM Y') }}</time></p>
+                        <p>{{ commentaire.commentaire |striptags|raw }}</p>
+                    </header>
+                    <div class="col-lg-4 comment-button">
+                        {% if commentaire.signaler == false %}
+                            <a href="{{ path('blogjf_signaler', {'idbillet' : billet.id, 'idcomment' : commentaire.id}) }}"><input type="button" class="btn btn-danger" value="Signaler" /></a>
+                        {% else %}
+                            <a href="{{ path('blogjf_adminshow', {'id' : billet.id} )}}"><input type="button" disabled="false" class="btn btn-danger" value="Signaler" /></a>
+                        {% endif %}
+                        {% if nbComm < 3 %}
+                            <input type="submit" class="btn btn-default reply" data-id="{{ commentaire.id }}" id="btn_repondre" value="Répondre" />
+                        {% else %}
+                            <input type="submit" style="visibility:hidden" class="btn btn-default reply" data-id="{{ commentaire.id }}" id="btn_repondre" value="Répondre" />
+                        {% endif %}
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+    {% if commentaire.children|length > 0 %}
+
+        {% set marge = marge + 50 %}
+        {% set nbComm = nbComm + 1 %}
+
+        {% include "BlogJFBlogBundle:Blog:comment.html.twig" with {'commentaires': commentaire.children, 'marge' : marge, 'index' : index} %}
+        {% set marge = marge - 50 %}
+        {% set nbComm = 0 %}
+        {% set index = index + 1 %}
+    {% endif %}
+
+{% endfor %}

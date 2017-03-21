@@ -52,7 +52,7 @@ class Commentaire
 
     /**
      * @ORM\ManyToOne(targetEntity="BlogJF\BlogBundle\Entity\Commentaire", inversedBy="children")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     private $parentId;
 
@@ -199,6 +199,11 @@ class Commentaire
     public function getChildren()
     {
         return $this->children;
+    }
+
+    public function removeChildren(Commentaire $children)
+    {
+        $this->children->removeElement($children);
     }
 
     public function setBillet(Billet $billet)

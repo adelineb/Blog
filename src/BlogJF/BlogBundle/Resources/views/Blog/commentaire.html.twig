@@ -1,7 +1,10 @@
-{% set marge = 0 %}
-{% set nbComm = 0 %}
-{% for commentaire in commentaires %}
-    {#commentaire : {{ commentaire.id }}#}
+{#{% for commentaire in commentaires %}
+    {% set i = i + 1 %}
+    {% set tirer = '' %}
+    {% for i in 0..nb_tirer %}
+        {{ tirer ~ '-' }}
+    {% endfor %}
+    commentaire : {{ commentaire.id }} / marge : {{ marge }} / nb_tirer : {{ nb_tirer }}
     <div style="margin-left: {{ marge }}px;">
         <article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
             {% if (commentaire.signaler == true) %}
@@ -29,22 +32,23 @@
         </article>
     </div>
     {% if commentaire.children|length > 0 %}
-        {#{{ commentaire.children|length }} commentaires enfants#}
+        commentaire {{ commentaire.id }} à {{ commentaire.children|length }} commentaires enfants
         <br>
         {% set marge = marge + 50 %}
         {% set nbComm = nbComm + 1 %}
-        {#commentaire parent : {{ commentaire.id }}#}
         <br>
-        {% include "BlogJFBlogBundle:Blog:commentaire.html.twig" with {'commentaires': commentaire.parentId}%}
-    {% else %}
-        {% set marge = 0 %}
+        commentaire parent : {{ commentaire.parentId }}
+        {% set nb_tirer = nb_tirer + 1 %}
+        <br>
+        {{ nb_tirer }} / {{ marge }}
+        {% include "BlogJFBlogBundle:Blog:commentaire.html.twig" with {'commentaires': commentaire.children, 'marge' : marge}%}
     {% endif %}
  {% endfor %}
+#}
 
-
-
-{#<div style="margin-left: {{ marge }}px;">
-{#<article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
+{#{% for commentaire in commentaires %}#}
+<div style="margin-left: {{ marge }}px;">
+<article class="comment {{ cycle(['odd', 'even'], loop.index0) }}" id="comment-{{ commentaire.id }}">
     {% if (commentaire.signaler == true) %}
         <img src="{{ asset('images/signale.png') }}" class = "signale" alt="logo"/>
     {% endif %}
@@ -68,5 +72,6 @@
         </div>
     </div>
 
-{#</article>
-</div>#}
+</article>
+</div>
+{#{% endfor %}#}

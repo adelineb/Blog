@@ -32,7 +32,8 @@ class BlogController extends Controller
         $em = $this->getDoctrine()->getManager();
         $billet = $em->getRepository('BlogJFBlogBundle:Billet')->find($id);
         if (!$billet) {
-            throw $this->createNotFoundException("Impossible d'ouvrir cet épisode");
+            return $this->redirectToRoute('blogjf_accueil');
+            //throw $this->createNotFoundException("Impossible d'ouvrir cet épisode");
         }
 
         $commentaires = $em->getRepository('BlogJFBlogBundle:Commentaire')
@@ -41,12 +42,11 @@ class BlogController extends Controller
         $commentModel = new CommentaireModel();
         $form = $this->get('form.factory')->create(CommentaireType::class, $commentModel);
 
-        /*foreach($commentaires as $k => $commentaire) {
+        foreach($commentaires as $k => $commentaire) {
             if($commentaire->getParentId() != null) {
                 unset($commentaires[$k]);
             }
-        }*/
-        dump($commentaires);
+        }
 
         return $this->render('BlogJFBlogBundle:Blog:show.html.twig', array(
             'billet' => $billet,
@@ -72,16 +72,18 @@ class BlogController extends Controller
                 $commentaire->setCommentaire($commentModel->getCommentaire());
 
                 $commentaire->addChildren($commentaire);
-                if ($parentid === null)
+                if ($parentid === 0)
                 {
                     $commentaire->setParentId(null);
+                    $em->persist($commentaire);
                 }
                 else
                 {
                     $commentaire->setParentId($commParent);
+                    $em->persist($commentaire);
+                    $commParent->addChildren($commentaire);
+                    $em->merge($commParent);
                 }
-
-                $em->persist($commentaire);
                 $em->flush();
                 $this->addFlash('success', 'Merci pour votre commentaire :)');
             }

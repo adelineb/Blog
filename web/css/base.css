@@ -65,9 +65,10 @@ body {
     clear: both;
 }
 
-#wrapper { margin: 10px auto; width: 1000px; }
-#wrapper a { text-decoration: none; color: #F48A00; }
-#wrapper span.highlight { color: #F48A00; }
+/*#wrapper { margin: 10px auto; width: 1000px; }*/
+a { text-decoration: none; color: #F48A00; }
+
+span.highlight { color: #F48A00; }
 
 #header { border-bottom: 1px solid #ccc; margin-bottom: 20px; }
 #header .top { border-bottom: 1px solid #ccc; margin-bottom: 10px; }
@@ -88,7 +89,7 @@ body {
 
 .commentaires { clear: both; }
 .commentaires .odd { background: #eee; }
-.commentaires .comment { padding: 20px; }
+.commentaires .comment { padding: 15px; }
 .commentaires .comment p { margin-bottom: 0; }
 .commentaires h3 { background: #eee; padding: 10px; font-size: 20px; margin-bottom: 20px; clear: both; }
 .commentaires .previous-comments { margin-bottom: 20px; }
@@ -129,6 +130,7 @@ body {
     width: 30px;
     float: right;
 }
+
 
 
 a:hover {
