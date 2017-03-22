@@ -16,6 +16,11 @@
 
     {{ form_widget(form.roman) }}
 
+    <br>
+    Publier {{ form_widget(form.published) }}
+
+    <br><br><br>
+
     {{ form_widget(form._token) }}
 
     <a href="{{ path('blogjf_admin') }}"><input type="button" class="btn btn-danger" value="Annuler" /></a>

@@ -49,6 +49,11 @@ class Billet
      */
     private $commentaires;
 
+    /**
+     * @ORM\Column(name="published", type="boolean")
+     */
+    private $published = true;
+
 
     public function __construct() {
         $this->date = new \Datetime();
@@ -162,6 +167,22 @@ class Billet
     public function getCommentaires()
     {
         return $this->commentaires;
+    }
+
+    /**
+     * @param bool $published
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getPublished()
+    {
+        return $this->published;
     }
 }
 

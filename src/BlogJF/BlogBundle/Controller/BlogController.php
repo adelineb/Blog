@@ -16,7 +16,7 @@ class BlogController extends Controller
     public function indexAction()
     {
         $repository = $this->getDoctrine()->getManager()->getRepository('BlogJFBlogBundle:Billet');
-        $listeBillets = $repository->ListeByDateDESC();
+        $listeBillets = $repository->ListePublishedByDateDESC();
         return $this->render('BlogJFBlogBundle:Blog:index.html.twig', array(
             'billets' => $listeBillets
         ));
@@ -27,15 +27,9 @@ class BlogController extends Controller
         return $this->render('BlogJFBlogBundle:Blog:apropos.html.twig');
     }
 
-    public Function showAction($id, Request $request)
+    public Function showAction(Billet $billet)
     {
         $em = $this->getDoctrine()->getManager();
-        $billet = $em->getRepository('BlogJFBlogBundle:Billet')->find($id);
-        if (!$billet) {
-            return $this->redirectToRoute('blogjf_accueil');
-            //throw $this->createNotFoundException("Impossible d'ouvrir cet épisode");
-        }
-
         $commentaires = $em->getRepository('BlogJFBlogBundle:Commentaire')
                            ->getCommentaireById($billet->getId());
 

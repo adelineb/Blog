@@ -131,6 +131,11 @@ span.highlight { color: #F48A00; }
     float: right;
 }
 
+.admin {
+    width: 30px;
+
+}
+
 
 
 a:hover {

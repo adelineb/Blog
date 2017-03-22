@@ -10,6 +10,20 @@ namespace BlogJF\BlogBundle\Repository;
  */
 class BilletRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function ListePublishedByDateDESC()
+    {
+        $qb = $this
+            ->createQueryBuilder('b')
+            ->where('b.published = :published')
+            ->setParameter('published', True)
+            ->addOrderBy('b.date', 'DESC')
+        ;
+        return $qb
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     public function ListeByDateDESC()
     {
         $qb = $this

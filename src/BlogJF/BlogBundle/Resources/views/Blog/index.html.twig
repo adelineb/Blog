@@ -11,7 +11,9 @@
             </header>
 
             <div class="snippet">
-                <p>{{ billet.roman(500) |striptags|raw }}</p>
+                {% set roman = billet.roman %}
+                {{ billet.roman |striptags|raw | truncate(400, true, '...') }}
+                {#<p>{{ billet.roman | truncate(50, true, '...') |striptags|raw }}</p>#}
                 <p class="continue"><a href="{{ path('blogjf_show', { 'id': billet.id }) }}">Lire la suite ...</a></p>
             </div>
         </article>

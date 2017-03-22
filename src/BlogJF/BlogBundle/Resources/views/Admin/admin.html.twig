@@ -1,5 +1,5 @@
 {# src/BlogJF/BlogBundle/Resources/views/Blog/index.html.twig #}
-{% extends '@BlogJFBlog/base2.html.twig' %}
+{% extends '@BlogJFBlog/base.html.twig' %}
 
 {% block body %}
     {% for billet in billets %}
@@ -8,15 +8,11 @@
             <header>
                 <h2><a href="{{ path('blogjf_adminshow', { 'id': billet.id }) }}">{{ billet.titre }}</a></h2>
             </header>
-
-            {#<div class="snippet">
-                <p>{{ billet.roman(500) }}</p>
-                <p class="continue"><a href="{{ path('blogjf_show', { 'id': billet.id }) }}">Lire la suite ...</a></p>
-            </div>#}
-        </article>
+       </article>
 
     {% endfor %}
 
+    <br><br><br>
     <div class = "admin-button">
         <a href="{{ path('blogjf_admincomment') }}"><input type="button" class="btn btn-default" value="Commentaire(s) signalé(s)" /></a>
         <a href="{{ path('blogjf_adminadd') }}"><input type="button" class="btn btn-default" value="Ajouter un chapitre" /></a>

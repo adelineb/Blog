@@ -11,19 +11,20 @@
         {% for commentaire in commentaires %}
         <div style="margin-left: {{ marge }}px;">
             <article class="comment {{ cycle(['even', 'odd'], loop.index0) }}" id="comment-{{ commentaire.id }}">
-                <div id="comment">
-                    <header>
+                <div class ="row" id="comment">
+                    <header class="col-lg-8">
                         <p><span class="titre_chapitre">Titre: {{ commentaire.billet.titre }}</span></p>
                         <p><span class="highlight">{{ commentaire.auteur }}</span>, <time datetime="{{ commentaire.date|date('c') }}">{{ commentaire.date|localizeddate('none', 'none', null, null,'EEEE d MMMM Y') }}</time></p>
                     </header>
                     <p>{{ commentaire.commentaire |striptags|raw }}</p>
 
-                    <div class="comment-button">
+                    <div class="col-lg-4 comment-button">
                         <a href="{{ path('blogjf_admindelcomment', {'id': commentaire.id})}}"><input type="button" class="btn btn-danger" value="Supprimer le commentaire" /></a>
                         <a href="{{ path('blogj_adminokcomment', {'id': commentaire.id})}}"><input type="button" class="btn btn-default" value="OK" /></a>
                     </div>
                 </div>
             </article>
+            <br>
         </div>
         {% endfor %}
     </section>

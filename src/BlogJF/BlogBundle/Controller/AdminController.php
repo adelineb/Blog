@@ -45,17 +45,15 @@ class AdminController extends Controller
         ));
     }
 
-    public Function adminshowAction($id, Request $request)
+    public Function adminshowAction(Billet $billet, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $billet = $em->getRepository('BlogJFBlogBundle:Billet')->find($id);
-        if (!$billet) {
-            return $this->redirectToRoute('blogjf_admin');
-        }
+
         $billetModel = new BilletModel();
         $billetModel->setId($billet->getId());
         $billetModel->setTitre($billet->GetTitre());
         $billetModel->setRoman($billet->getRoman());
+        $billetModel->setPublished($billet->getPublished());
         $form = $this->get('form.factory')->create(BilletType::class, $billetModel);
 
         if ($request->isMethod('POST')) {
@@ -65,6 +63,7 @@ class AdminController extends Controller
             $billet->setId($billetModel->getId());
             $billet->setTitre($billetModel->getTitre());
             $billet->setRoman($billetModel->getRoman());
+            $billet->setPublished($billetModel->getPublished());
             $em->merge($billet);
             $em->flush();
             return $this->redirectToRoute('blogjf_admin', array());

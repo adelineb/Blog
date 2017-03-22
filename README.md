@@ -10,7 +10,7 @@ EXPORT de la base de données MySQL
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1
--- Généré le :  Lun 20 Mars 2017 à 11:43
+-- Généré le :  Mer 22 Mars 2017 à 10:16
 -- Version du serveur :  5.7.14
 -- Version de PHP :  7.0.10
 
@@ -37,7 +37,8 @@ CREATE TABLE `billet` (
   `id` int(11) NOT NULL,
   `date` datetime NOT NULL,
   `titre` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `roman` longtext COLLATE utf8_unicode_ci NOT NULL
+  `roman` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `published` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -82,12 +83,12 @@ ALTER TABLE `commentaire`
 -- AUTO_INCREMENT pour la table `billet`
 --
 ALTER TABLE `billet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT pour la table `commentaire`
 --
 ALTER TABLE `commentaire`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 --
 -- Contraintes pour les tables exportées
 --
@@ -98,6 +99,10 @@ ALTER TABLE `commentaire`
 ALTER TABLE `commentaire`
   ADD CONSTRAINT `FK_67F068BC44973C78` FOREIGN KEY (`billet_id`) REFERENCES `billet` (`id`),
   ADD CONSTRAINT `FK_67F068BC727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `commentaire` (`id`) ON DELETE CASCADE;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

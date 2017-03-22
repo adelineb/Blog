@@ -3,6 +3,7 @@
 namespace BlogJF\BlogBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,6 +16,7 @@ class BilletType extends AbstractType
         $builder
             ->add('titre',          TextType::class)
             ->add('roman',          TextareaType::class,array('required' => false))
+            ->add('published',      CheckboxType::class,array('required' => false))
 
         ;
     }

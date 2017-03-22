@@ -32,6 +32,11 @@ class BilletModel
      */
     private $roman;
 
+    /**
+     * @var \boolean
+     */
+    private $published;
+
 
     public function setId($id)
     {
@@ -78,5 +83,17 @@ class BilletModel
     public function getRoman()
     {
         return $this->roman;
+    }
+
+    public function setPublished($published)
+    {
+        $this->published = $published;
+
+        return $this;
+    }
+
+    public function getPublished()
+    {
+        return $this->published;
     }
 }
