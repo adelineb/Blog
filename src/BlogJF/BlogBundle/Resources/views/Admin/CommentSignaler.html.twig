@@ -15,8 +15,9 @@
                     <header class="col-lg-8">
                         <p><span class="titre_chapitre">Titre: {{ commentaire.billet.titre }}</span></p>
                         <p><span class="highlight">{{ commentaire.auteur }}</span>, <time datetime="{{ commentaire.date|date('c') }}">{{ commentaire.date|localizeddate('none', 'none', null, null,'EEEE d MMMM Y') }}</time></p>
+                        <p>{{ commentaire.commentaire |striptags|raw }}</p>
                     </header>
-                    <p>{{ commentaire.commentaire |striptags|raw }}</p>
+
 
                     <div class="col-lg-4 comment-button">
                         <a href="{{ path('blogjf_admindelcomment', {'id': commentaire.id})}}"><input type="button" class="btn btn-danger" value="Supprimer le commentaire" /></a>
