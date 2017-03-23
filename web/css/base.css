@@ -14,7 +14,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 body{
     line-height:1;
-    /*background-color: azure;*/
 }
 
 hgroup {
@@ -109,6 +108,7 @@ span.highlight { color: #F48A00; }
 
 @media (min-width: 1200px) {
     .container {
+       /* width: 970px;*/
         width: 1170px;
     }
 }

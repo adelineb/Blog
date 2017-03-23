@@ -4,6 +4,7 @@ namespace BlogJF\BlogBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Billet
@@ -40,6 +41,7 @@ class Billet
      * @var string
      *
      * @ORM\Column(name="roman", type="text")
+     * @Assert\Length(min=1, minMessage="L'article ne peut pas être vide")
      */
     private $roman;
 

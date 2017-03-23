@@ -14,7 +14,7 @@ class CommentaireType extends AbstractType
     {
         $builder
             ->add('auteur',          TextType::class)
-            ->add('commentaire',     TextareaType::class,array('required' => true))
+            ->add('commentaire',     TextareaType::class,array('required' => false))
 
         ;
     }
