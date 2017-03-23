@@ -27,7 +27,7 @@ class BlogController extends Controller
         return $this->render('BlogJFBlogBundle:Blog:apropos.html.twig');
     }
 
-    public Function showAction(Billet $billet)
+    public Function showAction(Billet $billet, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $commentaires = $em->getRepository('BlogJFBlogBundle:Commentaire')
@@ -37,7 +37,7 @@ class BlogController extends Controller
         $form = $this->get('form.factory')->create(CommentaireType::class, $commentModel);
 
         foreach($commentaires as $k => $commentaire) {
-            if($commentaire->getParentId() != null) {
+            if($commentaire->getParent() != null) {
                 unset($commentaires[$k]);
             }
         }
@@ -49,11 +49,11 @@ class BlogController extends Controller
         ));
     }
 
-    public Function addAction($id, $parentid, Request $request)
+    public Function addAction($id, $parent, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $billet = $em->getRepository('BlogJFBlogBundle:Billet')->find($id);
-        $commParent = $em->getRepository('BlogJFBlogBundle:Commentaire')->find($parentid);
+        $commParent = $em->getRepository('BlogJFBlogBundle:Commentaire')->find($parent);
         $commentModel = new CommentaireModel();
         $form = $this->get('form.factory')->create(CommentaireType::class, $commentModel);
         if ($request->isMethod('POST')) {
@@ -66,14 +66,14 @@ class BlogController extends Controller
                 $commentaire->setCommentaire($commentModel->getCommentaire());
 
                 $commentaire->addChildren($commentaire);
-                if ($parentid === 0)
+                if ($parent === 0)
                 {
-                    $commentaire->setParentId(null);
+                    $commentaire->setParent(null);
                     $em->persist($commentaire);
                 }
                 else
                 {
-                    $commentaire->setParentId($commParent);
+                    $commentaire->setParent($commParent);
                     $em->persist($commentaire);
                     $commParent->addChildren($commentaire);
                     $em->merge($commParent);

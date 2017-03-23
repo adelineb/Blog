@@ -27,7 +27,7 @@
 
 
     <div class = "form-comment">
-        {{ form_start(form, {'action': path('blogjf_add', {'id' : billet.id, 'parentid' : null}), 'method': 'POST', 'attr': {'class': 'form-horizontal', 'id': 'formcomment'}}) }}
+        {{ form_start(form, {'action': path('blogjf_add', {'id' : billet.id, 'parent' : null}), 'method': 'POST', 'attr': {'class': 'form-horizontal', 'id': 'formcomment'}}) }}
         {{ form_errors(form) }}
         <br><br>
         <h4>Poster un commentaire</h4>

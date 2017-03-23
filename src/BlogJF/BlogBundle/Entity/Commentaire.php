@@ -46,7 +46,7 @@ class Commentaire
 
     /**
      * Un commentaire a plusieurs commentaires
-     * @ORM\OneToMany(targetEntity="BlogJF\BlogBundle\Entity\Commentaire", mappedBy="parentId")
+     * @ORM\OneToMany(targetEntity="BlogJF\BlogBundle\Entity\Commentaire", mappedBy="parent")
      */
     private $children;
 
@@ -54,7 +54,7 @@ class Commentaire
      * @ORM\ManyToOne(targetEntity="BlogJF\BlogBundle\Entity\Commentaire", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
-    private $parentId;
+    private $parent;
 
     /**
      * @var boolean
@@ -65,14 +65,14 @@ class Commentaire
 
     /**
      * @ORM\ManyToOne(targetEntity="BlogJF\BlogBundle\Entity\Billet", inversedBy="commentaires")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $billet;
 
 
     public function __construct() {
         $this->date = new \Datetime();
-        $this->parentId = null;
+        $this->parent = null;
         $this->signaler = false;
         $this->children = new ArrayCollection();
     }
@@ -166,33 +166,33 @@ class Commentaire
     }
 
     /**
-     * Set parentId
+     * Set parent
      *
-     * @param integer $parentId
+     * @param integer $parent
      *
      * @return commentaire
      */
-    public function setParentId($parentId)
+    public function setParent($parent)
     {
-        $this->parentId = $parentId;
+        $this->parent = $parent;
 
         return $this;
     }
 
     /**
-     * Get parentId
+     * Get parent
      *
      * @return int
      */
-    public function getParentId()
+    public function getParent()
     {
-        return $this->parentId;
+        return $this->parent;
     }
 
     public function addChildren(Commentaire $children)
     {
         $this->children[] = $children;
-        $children->setParentId($this);
+        $children->setParent($this);
         return $this;
     }
 

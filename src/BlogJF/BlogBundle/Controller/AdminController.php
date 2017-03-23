@@ -34,6 +34,7 @@ class AdminController extends Controller
                 $billet = new Billet();
                 $billet->setTitre($billetModel->getTitre());
                 $billet->setRoman($billetModel->getRoman());
+                $billet->setPublished($billetModel->getPublished());
                 $em->persist($billet);
                 $em->flush();
 

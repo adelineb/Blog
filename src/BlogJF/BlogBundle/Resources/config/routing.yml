@@ -3,7 +3,7 @@ blogjf_admin:
     defaults: { _controller: BlogJFBlogBundle:Admin:admin}
 
 blogjf_admindelcomment:
-    path:    /admin/del/{id}
+    path:    /admin/del/comment/{id}
     defaults : { _controller: BlogJFBlogBundle:Admin:adminDelComment}
 
 blogj_adminokcomment:
@@ -35,8 +35,8 @@ blogjf_apropos:
     defaults: { _controller: BlogJFBlogBundle:Blog:apropos}
 
 blogjf_add:
-    path:    /{id}/comment/{parentid}
-    defaults: { _controller: BlogJFBlogBundle:Blog:add, parentid:0}
+    path:    /{id}/comment/{parent}
+    defaults: { _controller: BlogJFBlogBundle:Blog:add, parent:0}
     requirements:
         -method: POST
 

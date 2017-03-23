@@ -35,7 +35,7 @@ class CommentaireModel
     /**
      * @var \integer
      */
-    private $parentId;
+    private $parent;
 
     /**
      * @var \integer
@@ -102,16 +102,16 @@ class CommentaireModel
         return $this->commentaire;
     }
 
-    public function setParentId($parentId)
+    public function setParent($parent)
     {
-        $this->parentId = $parentId;
+        $this->parent = $parent;
 
         return $this;
     }
 
-    public function getParentId()
+    public function getParent()
     {
-        return $this->parentId;
+        return $this->parent;
     }
 }
 
