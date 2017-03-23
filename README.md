@@ -10,7 +10,7 @@ EXPORT de la base de données MySQL
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1
--- Généré le :  Mer 22 Mars 2017 à 10:16
+-- Généré le :  Jeu 23 Mars 2017 à 15:55
 -- Version du serveur :  5.7.14
 -- Version de PHP :  7.0.10
 
@@ -83,12 +83,12 @@ ALTER TABLE `commentaire`
 -- AUTO_INCREMENT pour la table `billet`
 --
 ALTER TABLE `billet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT pour la table `commentaire`
 --
 ALTER TABLE `commentaire`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 --
 -- Contraintes pour les tables exportées
 --
@@ -97,14 +97,9 @@ ALTER TABLE `commentaire`
 -- Contraintes pour la table `commentaire`
 --
 ALTER TABLE `commentaire`
-  ADD CONSTRAINT `FK_67F068BC44973C78` FOREIGN KEY (`billet_id`) REFERENCES `billet` (`id`),
+  ADD CONSTRAINT `FK_67F068BC44973C78` FOREIGN KEY (`billet_id`) REFERENCES `billet` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_67F068BC727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `commentaire` (`id`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-

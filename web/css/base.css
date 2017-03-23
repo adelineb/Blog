@@ -18,9 +18,9 @@ body{
 }
 
 hgroup {
-    background-image: url("../images/alaska-road2.jpg");
+    background-image: url("../images/alaska-road.jpg");
     background-repeat: no-repeat;
-    /*opacity: 0.5;*/
+    height: 300px;
 }
 
 hgroup h3 a {
@@ -100,11 +100,13 @@ span.highlight { color: #F48A00; }
         width: 750px;
     }
 }
+
 @media (min-width: 992px) {
     .container {
         width: 970px;
     }
 }
+
 @media (min-width: 1200px) {
     .container {
         width: 1170px;
@@ -139,7 +141,7 @@ span.highlight { color: #F48A00; }
 
 
 a:hover {
-    text-decoration: none !important;;
+    text-decoration: none !important;
 }
 
 

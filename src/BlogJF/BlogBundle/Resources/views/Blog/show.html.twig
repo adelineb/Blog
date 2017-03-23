@@ -54,7 +54,8 @@
                 $('.parent_id').val(parent_id);
                 $divform.find('h4').text('Répondre à ce commentaire');
                 var $form = $('#formcomment');
-                commenturl = '/Blog/web/app_dev.php/' + {{ billet.id }} + '/comment/';
+                commenturl = {{ app.request.baseUrl }} + {{ billet.id }} + '/comment/';
+               // commenturl = '/Blog/web/app_dev.php/' + {{ billet.id }} + '/comment/';
                 $form.attr('action', commenturl + parent_id);
                 comment.after($divform);
                 var textareaId = 'textareaid';
