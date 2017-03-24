@@ -10,7 +10,7 @@
             <h2>{{ billet.titre }}</h2>
         </header>
         <div>
-            <p>{{ billet.roman |striptags|raw }}</p>
+            <p>{{ billet.roman |raw }}</p>
         </div>
     </article>
 
@@ -28,7 +28,7 @@
 
     <div class = "form-comment">
         {{ form_start(form, {'action': path('blogjf_add', {'id' : billet.id, 'parent' : null}), 'method': 'POST', 'attr': {'class': 'form-horizontal', 'id': 'formcomment'}}) }}
-        {{ form_errors(form) }}
+        {{ form_errors(form.commentaire) }}
         <br><br>
         <h4>Poster un commentaire</h4>
         {{ form_widget(form.auteur) }}

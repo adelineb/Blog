@@ -12,23 +12,14 @@ use Louvre\BilletterieBundle\Validator as AcmeAssert;
  */
 class BilletModel
 {
-    /**
-     * @var \integer
-     */
-    private $id;
-
-    /**
-     * @var \DateTime
-     */
-    private $date;
-
-    /**
+     /**
      * @var \string
      */
     private $titre;
 
     /**
      * @var \string
+     * @Assert\NotBlank("Le commentaire ne peut pas être vide")
      */
     private $roman;
 
@@ -37,29 +28,6 @@ class BilletModel
      */
     private $published;
 
-
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    public function getDate()
-    {
-        return $this->date;
-    }
 
     public function setTitre($titre)
     {

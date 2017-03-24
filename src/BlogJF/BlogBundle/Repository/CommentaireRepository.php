@@ -24,14 +24,4 @@ class CommentaireRepository extends \Doctrine\ORM\EntityRepository
             ->getResult()
             ;
     }
-
-    function getCommentaireBySignaler()
-    {
-        $qb = $this->_em->createQuery('SELECT c FROM BlogJFBlogBundle:Commentaire c');
-        return $qb
-            ->getQuery()
-            ->getResult()
-            ;
-
-    }
 }

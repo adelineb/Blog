@@ -41,7 +41,6 @@ class Billet
      * @var string
      *
      * @ORM\Column(name="roman", type="text")
-     * @Assert\Length(min=1, minMessage="L'article ne peut pas être vide")
      */
     private $roman;
 
