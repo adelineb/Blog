@@ -19,7 +19,7 @@ class BilletModel
 
     /**
      * @var \string
-     * @Assert\NotBlank("Le commentaire ne peut pas être vide")
+     * @Assert\NotBlank()
      */
     private $roman;
 
@@ -28,6 +28,29 @@ class BilletModel
      */
     private $published;
 
+
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    public function getDate()
+    {
+        return $this->date;
+    }
 
     public function setTitre($titre)
     {

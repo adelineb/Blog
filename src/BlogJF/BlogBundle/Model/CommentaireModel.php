@@ -19,7 +19,7 @@ class CommentaireModel
 
     /**
      * @var \string
-     * @Assert\NotBlank("Le commentaire ne peut pas être vide")
+     * @Assert\NotBlank()
      */
     private $commentaire;
 

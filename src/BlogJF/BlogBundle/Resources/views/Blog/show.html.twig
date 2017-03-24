@@ -28,10 +28,11 @@
 
     <div class = "form-comment">
         {{ form_start(form, {'action': path('blogjf_add', {'id' : billet.id, 'parent' : null}), 'method': 'POST', 'attr': {'class': 'form-horizontal', 'id': 'formcomment'}}) }}
-        {{ form_errors(form.commentaire) }}
+        {{ form_errors(form) }}
         <br><br>
         <h4>Poster un commentaire</h4>
         {{ form_widget(form.auteur) }}
+        {{ form_errors(form.commentaire) }}
         {{ form_widget(form.commentaire, {'id': 'textareaid'}) }}
         {{ form_widget(form._token) }}
 
@@ -55,7 +56,6 @@
                 $divform.find('h4').text('Répondre à ce commentaire');
                 var $form = $('#formcomment');
                 commenturl = {{ app.request.baseUrl }} + {{ billet.id }} + '/comment/';
-               // commenturl = '/Blog/web/app_dev.php/' + {{ billet.id }} + '/comment/';
                 $form.attr('action', commenturl + parent_id);
                 comment.after($divform);
                 var textareaId = 'textareaid';
